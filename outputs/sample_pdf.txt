@@ -1,0 +1,756 @@
+Probability
+Introduction to Graphical Models
+Prof. Alexander Ihler
+BREN:IC
+UNIVERSITY of CALIFORNIA
+IRVINE
+INFORMATION AND COMPUTER SCIENCES
+Uncertainty in the world
+Uncertainty due to
+- Randomness
+- Overwhelming complexity
+- Lack of knowledge
+-
+Example: time to the airport
+Without representing & communicating uncertainty, it's easy to
+make and compound mistakes
+Probability gives
+- natural way to describe our assumptions
+- rules for how to combine information
+(c) Alexander Ihler
+2
+Probability
+Event "A" in event space "S"
+- Ex: "I have a headache"
+- Ex: "I have the flu"
+all of S
+- Ex: "I have Ebola"
+A
+Probability Pr[A]
+- Think of e.g. "# of worlds in which
+A happens"
+- This is a measure, like area
+- Can think of it in those terms
+(c) Alexander Ihler
+3
+Probability
+Event "A" in event space "S"
+Probability Pr[A]
+all of S
+Axioms of probability
+- 0 Pr[A] 1
+- Pr[S] = 1
+A
+- Pr[0]=0
+- Pr[A U B] = Pr[A] + Pr[B] - Pr[An B]
+(c) Alexander Ihler
+4
+Probability
+Event "A" in event space "S"
+Probability Pr[A]
+all of S
+Axioms of probability
+- 0 Pr[A] 1
+- Pr[S]= 1
+. Pr[0]=0
+A
+- Pr[A U B] = Pr[A] + Pr[B] - Pr[A n B]
+"A" can't get any smaller
+than size zero.
+No worlds in which "A" is true
+(c) Alexander Ihler
+5
+Probability
+Event "A" in event space "S"
+Probability Pr[A]
+all of
+Axioms of probability
+- Pr[A] 1
+A
+- Pr[ S ] = 1
+- Pr [[]]]]0]
+- Pr[AUE B] = Pr[A] + Pr[B] - Pr[A n B]
+"A" can't get any larger
+than all worlds: 100%
+of worlds have "A" true
+(c) Alexander Ihler
+6
+Probability
+Event "A" in event space "S"
+Probability Pr[A]
+all of S
+Axioms of probability
+- 0 Pr[A] 1
+- Pr[S ] = 1
+A
+- [ 0] =0
+- Pr[A U B] = Pr[A] + Pr[B] - Pr[An B]
+B
+AUB
+A
+=
++
+AnB
+B
+-
+(c) Alexander Ihler
+7
+Discrete random variables
+X takes on finite set of values S={a1...ad}
+- Disjoint and Exhaustive
+Probability mass functions (pmfs)
+X=a1
+- Define a measure on subsets of S
+X=a3
+Pr[X=a] defined for each value a;
+Pr[X EACS = Pr[X = ai]
+X=a2
+Ai EA
+Constraints:
+0
+Pr[X - ai] < 1
+Pr[X - ai] - 1
+(c) Alexander Ihler
+8
+Examples
+Bernoulli RV: "coin toss"
+X E {0,1}
+Pr[X = 1]=p
+Pr[X = 0] =1-p
+Binomial(p,n): toss the coin n times & count
+n
+Y =
++
+i=1
+Discrete(d): d-sided die roll
+X E {1,...,d} Pr[X = 1]=p1 =
+Pr[X = d] = pd
+=1
+i
+Multinomial(d,n): roll the die in times and count outcomes
+Y =
+(c) Alexander Ihler
+9
+Probability distributions
+Discrete random variables
+Typically represent as a table
+-
+But, useful to express analytically
+Later: take derivatives, fit to data, etc.
+Ex: Bernoulli, X = 0 or 1
+"Exponential family" form
+"Network polynomial" form
+p(x) =
+p(x) = (p) (x) + (1 -p).(1-x) -
+if x=1
+p
++ 0
+if x = 1
+if x=0
+0+(1-p) if x = 0
+(c) Alexander Ihler
+10
+Example from Russell & Norvig
+Joint distributions
+Often, we want to reason about multiple variables
+Example: dentist
+-
+T: have a toothache
+TDC p(T,D,C)
+- D: dental probe catches
+000
+0.576
+- C: have a cavity
+001
+0.008
+Joint distribution
+010
+0.144
+0
+1
+1
+0.072
+- Assigns each event (T=t, D=d, C=c) a probability
+100
+0.064
+- Probabilities sum to 1.0
+101
+0.012
+110
+0.016
+Law of total probability:
+1 1 1
+0.108
+p(C = 1) = = 1)
+t,d
+= 0.008 + 0.072 + 0.012 + 0.108
+= 0.20
+- Some value of (T,D) must occur; values disjoint
+-
+"Marginal probability" of C; "marginalize" or "sum over" T,D
+(c) Alexander Ihler
+11
+Conditional probability
+Chain rule:
+p (X = x,Y=y)=p(X=x)p(Y=yX=x) = =
+p(X=x,Y=y) : probability that both X=x and Y=y
+X
+p(X=x)
+:
+probability that X=x (and some Y)
+P(Y=y|X=x): probability that Y=y given X=x already
+y
+-
+More generally:
+p(X,Y,Z)=p(X) p(YX)pZX,Y)
+b(W,X,Y,Z)=p(X)p(YX)p(ZX,Y)p(WX,Y,Z)
+(can apply using any order of expansion; each
+conditional depends on previous variables in order)
+(c) Alexander Ihler
+12
+Example from Russell & Norvig
+The effect of evidence
+Example: dentist
+- T: have a toothache
+- D: dental probe catches
+T D C P(T,D,C)
+- C: have a cavity
+000
+0.576
+0
+0
+1
+0.008
+Recall p(C=1) = 0.20
+0
+1
+0
+0.144
+Suppose we observe D=0, T=0?
+0
+1
+1
+0.072
+1
+0
+0
+0.064
+p(C = =
+1
+0
+1
+0.012
+p(D=0,T=0)
+1
+1
+0
+0.016
+0.008
+1
+1
+1
+0.108
+=
+= 0.012
+0.576 + 0.008
+Observe D=1, T=1?
+Called posterior probabilities
+0.108
+(posterior = after observing)
+0.016
+= 0.871
+0.016 + 0.108
+(c) Alexander Ihler
+13
+Example from Russell & Norvig
+The effect of evidence
+Example: dentist
+- T: have a toothache
+- D: dental probe catches
+T D C P(T,D,C)
+- C: have a cavity
+000
+0.576
+001
+0.008
+Combining these rules:
+010
+0.144
+0
+1
+1
+0.072
+p(C =
+p(T==1)
+100
+0.064
+101
+0.012
+0.012 + 0.108
+110
+0.016
+=
+= 0.60
+0.064 + 0.012 + 0.016 + 0.108
+1 1 1
+0.108
+/
+p(T = 1)= = 0.20
+Called the probability of evidence
+(c) Alexander Ihler
+14
+Computing posteriors
+Sometimes easiest to normalize last
+1
+p(CT = 1)
+p(T = 1) P(C,T =1) a p(C,T = = 1) = [p(C,d,T = 1) =
+d
+T D C P(T,D,C)
+0
+100
+0.576
+Assign T=1
+Sum over D
+Normalize
+0
+0
+1
+0.008
+D C
+F(D,C)
+0
+1
+0
+0.144
+0
+0
+0.064
+C
+G(C)
+C P(C|T=1)
+0
+1
+1
+0.072
+0
+1
+0.012
+0
+0.08
+0
+0.40
+1
+0
+0
+0.064
+1
+0
+0.016
+1
+0.120
+1
+0.60
+1
+0
+1
+0.012
+1
+1
+0.108
+1
+1
+0
+0.016
+1
+1
+1
+0.108
+P = gm.Factor([T,D,C]
+F = P.condition( {T:1} )
+# assign T=1
+P[{T:0,D:0,C:0}]=0.576
+G = F.sum([D])
+# sum over D
+# definejoint distribution
+H=G/G.sum()
+# normalize
+(c) Alexander Ihler
+15
+Bayes rule
+Lets us calculate posterior given evidence
+p(YX)p(X)=p(X,Y)=p(XY) - p(Y)
+P(YX)_PXYAY) =
+"Bayes rule"
+p(X)
+Example: flu
+F
+P(F)
+F
+H
+P(H|F)
+- P(F), P(H|F)
+0
+0.95
+00
+0.80
+- P(F=1 I H=1) = ?
+1
+0.05
+01
+0.20
+10
+0.50
+1
+1
+0.50
+0.50 * 0.05
+=
+= 0.116
+0.50 * 0.05 + 0.20 * 0.95
+(c) Alexander Ihler
+16
+Independence
+X, Y independent:
+- b(X=x,Y=y) = = p(X=x) p(Y=y) for all x,y
+- Shorthand:p(X,Y)=P(X)P(Y)
+- Equivalent: p(X|Y) = p XX or p(Y|X) = p(Y)
+(if p(Y), p(X) 0)
+- Intuition: knowing X has no information about Y (or vice versa)
+Independent probability distributions:
+ABC
+P(A,B,C)
+A
+P(A)
+P(B)
+C
+P(C)
+Joint:
+000
+.4*.7*.1
+0
+0.4
+0
+0.7
+0
+0.1
+001
+.4*.7*.9
+1
+0.6
+1
+0.3
+1
+0.9
+010
+4*.3*.1
+This reduces representation size!
+011
+...
+100
+101
+110
+111
+(c) Alexander Ihler
+18
+Independence
+X, Y independent:
+- p(X=x,Y=y) = p(X=x) p(Y=y) for all x,y
+- Shorthand: p(X,Y) = P(X) P(Y)
+- Equivalent: b(X|Y) = p XX or p(Y|X) = p(Y)
+(if p (p)Y, p(X) > 0)
+- Intuition: knowing X has no information about Y (or vice versa)
+Independent probability distributions:
+ABC
+P(A,B,C)
+A
+P(A)
+P(B)
+C
+P(C)
+Joint:
+000
+0.028
+0
+0.4
+0
+0.7
+0
+0.1
+001
+0.252
+1
+0.6
+1
+0.3
+1
+0.9
+010
+0.012
+This reduces representation size!
+011
+0.108
+100
+0.042
+Note: it is hard to "read" independence
+101
+0.378
+from the joint distribution.
+110
+0.018
+We can "test" for it, however.
+111
+0.162
+(c) Alexander Ihler
+19
+Conditional Independence
+X, Y independent given Z
+- p(X=x,Y=y|Z=z) = p(X=x|Z=z)p(Y=y|Z=z) = for all x,y,z
+- Equivalent: p(X|Y,Z) = p(X)Z or p(Y|X,Z) = p(Y/Z)
+(if all > 0)
+-
+Intuition: X has no additional info about Y beyond Z's
+Example
+X = height
+p(height|reading, age) = p(height|age)
+Y = reading ability
+p(reading height, age) = p(reading lage)
+Z = age
+Height and reading ability are dependent (not independent), but are
+conditionally independent given age
+(c) Alexander Ihler
+20
+Conditional Independence
+X, Y independent given Z
+- p(X=x,Y=y|Z=z) = p(X=x|Z=z) p(Y=y|Z=z) for all x,y,z
+- Equivalent: p(X|Y,Z) = p(X|Z) or p(Y|X,Z) = p(Y/Z)
+- Intuition: X has no additional info about Y beyond Z's
+Example: Dentist
+Joint prob:
+Conditional prob:
+T D C P(T,D,C)
+TDC P(T|D,C)
+Again, hard to "read" from the
+000
+0.576
+000
+0.90
+joint probabilities; only from
+001
+0.008
+001
+0.40
+the conditional probabilities.
+010
+0.144
+010
+0.90
+011
+0.072
+011
+0.40
+Like independence, reduces
+100
+0.064
+100
+0.10
+representation size!
+101
+0.012
+101
+0.60
+110
+0.016
+110
+0.10
+111
+0.108
+111
+0.60
+(c) Alexander Ihler
+21
+Continuous random variables
+Definition
+Cumulative distribution function, Pr[X < x] = P (x)
+Probability density function p(x) = (d/dx) P(x) =
+- Now, 0  P(x) 1, but p(x) 0.
+Uniform distribution on [0,T]
+-
+Density p(x) = 1/T if X in [0,T] and 0 otherwise
+0
+T
+Gaussian distribution
+- Classical probability distribution over continuous values
+- Density function:
+N(x; Mc, 22) = (2no2)
+exp
+Multivariate Gaussian models
+Similar to univariate case
+p(x) = = ( exp _1 - 2
+u
+1 X N mean vector
+NXN covariance matrix
+X1
+x2
+X1
+Beta distributions
+Distribution on continuous X in range [0,1]
+(a + b)
+p(x) = Beta(x;a,b) =
+xa.
+1
+(1
+x)
+b-1
+T(a)F(b)
+(where a, b > 0)
+Examples:
+a=1, b=3
+a=2, b=3
+a=3, b=3
+a=3, b=2
+a=3, b=1
+0.0
+0.5
+1.0 0.0
+0.5
+1.0 0.0
+0.5
+1.0 0.0
+0.5
+1.0 0.0
+0.5
+1.0
+a=0.3, b=2
+a=0.3, b=0.6
+a=0.3, b=0.3
+a=0.6, b=0.3
+a=2, b=0.3
+0.0
+0.5
+1.0 0.0
+0.5
+1.0 0.0
+0.5
+1.0 0.0
+0.5
+1.0 0.0
+0.5
+1.0
+(c) Alexander Ihler
+24
+Dirichlet distributions
+Generalizes the Beta distribution to vectors
+(
+n
+p(x) : Dir(x;a) =
+T(a1)
+...T(an)
+II
+N
+j=1
+(if
+xj=1)
+j=1
+Distribution over simplex
+- vectors that sum to one (pmfs)
+a=[.3,.3,.3]
+x = [ 2,3,4 ]
+a=[8,6,6]
+Simplex
+The exponential family
+General class that includes many common distributions
+(parameter-only transform)
+(data-only transform: "features")
+(dot product between vectors = linear function)
+Ex: Bernoulli distribution
+= exp
+n(p) = [log(p) log(1 p)]
+n(p) = =[log p/(1-p) ]
+(x) = [x (1-x)
+]
+=
+Z(p) = = (1 - p) - 1
+"Natural parameters":
+exp (n X)
+(c) Alexander Ihler
+26
+Pyro
+A library for "probabilistic programming"
+import numpy as np
+# linear algebra library from CS178
+import matplotlib.pyplot as plt
+# plotting library from CS178
+import torch
+# like numpy, but with extra features
+import pyro
+# PyPI package "pyro-ppl"; uses torch
+import pyro.distributions as dist
+Define a random variable & give it a distribution
+X
+= pyro. sample ('X', dist. Bernoulli (0.33) ) # define & sample var "X"
+X
+tensor (1.)
+Can also sample without naming the variable:
+px = dist. Bernoulli (1./3)
+# the distribution p(X)
+print ( pX. sample ( [20]) )
+# draw 20 samples
+tensor ( [1., 0., 0., 1., 0., 0., 0., 1., 1., , 1., , 0., 0., , 0., , 0.,
+0., 0., 0., , 0., 1., 0.])
+(c) Alexander Ihler
+27
+Pyro
+Visualizing our samples: histograms
+samples = pX. . sample ( [200])
+print (f Average number of ones: { samples.mean ()}')
+plt. figure (figsize = (5,3) )
+# set the size of the figure we'll plot on
+plt. hist (samples) ;
+# display the histogram of our samples
+Average number of ones: 0.33500000834465027
+120
+100
+80
+60
+40
+20
+0
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+(c) Alexander Ihler
+28
+Pyro
+Visualizing our samples: scatterplots
+pZ = dist.MultivariateNormal ( torch.zeros (2), torch.eye (2)
+)
+pz. sample ( )
+tensor ( [ 1.3664, -0.9620])
+Z = pz. sample ( [1000]) numpy ( ) . # numpy is more convenient for plotting
+print (Z. shape)
+(1000, 2)
+plt.plot(Z[: 0],Z[:, 1], 'b.'); # axis 0 VS axis 1, using blue dots
+plt.axis [-4, 4, -4,4]);
+4
+3
+2
+1
+0
+-1
+-2
+-3
+-4
+-4
+-3
+-2
+-1
+0
+1
+2
+3
+4
+(c) Alexander Ihler
+29

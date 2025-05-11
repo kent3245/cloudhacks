@@ -1,74 +1,44 @@
 # aws_calls/aws_tts.py
 
 import os
+import sys
 import boto3
-from config import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION
+from config import AWS_REGION, BUCKET_NAME  # BUCKET_NAME only if you want a default
 
-# shared Polly client factory
-def _make_polly_client():
-    return boto3.client(
-        "polly",
-        aws_access_key_id=AWS_ACCESS_KEY_ID,
-        aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-        region_name=AWS_REGION,
-    )
-
-def synthesize_speech_from_text(
-    text: str,
-    voice: str = "Matthew",
-    engine: str = "neural",
-    output: str = "speech.mp3",
-    out_folder: str = "outputs"
+def synthesize_speech_from_s3(
+    bucket_name,
+    object_key,
+    voice="Matthew",
+    engine="neural",
+    output="speech.mp3"
 ):
-    """
-    Turn a raw text string into an MP3 saved under out_folder/output.
-    """
-    # ensure folder exists
-    os.makedirs(out_folder, exist_ok=True)
-    out_path = os.path.join(out_folder, output)
+    s3    = boto3.client("s3", region_name=AWS_REGION)
+    polly = boto3.client("polly", region_name=AWS_REGION)
 
-    polly = _make_polly_client()
-    resp = polly.synthesize_speech(
+    resp = s3.get_object(Bucket=bucket_name, Key=object_key)
+    text = resp["Body"].read().decode("utf-8").strip()
+
+    polly_resp = polly.synthesize_speech(
         Text=text,
         VoiceId=voice,
         Engine=engine,
         OutputFormat="mp3"
     )
+    with open(output, "wb") as out_f:
+        out_f.write(polly_resp["AudioStream"].read())
 
-    # write the bytes
-    with open(out_path, "wb") as fw:
-        fw.write(resp["AudioStream"].read())
+    print(f"Saved speech to {output}")
 
-    print(f"saved speech to {out_path}")
-    return out_path
-
-
-def synthesize_speech_from_file(
-    script_path: str,
-    **kwargs
-):
-    """
-    Read a local file and pass its contents to synthesize_speech_from_text.
-    """
-    with open(script_path, "r", encoding="utf-8") as f:
-        text = f.read().strip()
-    return synthesize_speech_from_text(text, **kwargs)
-
-
-def synthesize_speech_from_s3(
-    s3_bucket: str,
-    s3_key: str,
-    **kwargs
-):
-    """
-    Fetch a text file from S3 and pass its contents to synthesize_speech_from_text.
-    """
-    s3 = boto3.client(
-        "s3",
-        aws_access_key_id=AWS_ACCESS_KEY_ID,
-        aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-        region_name=AWS_REGION,
-    )
-    obj = s3.get_object(Bucket=s3_bucket, Key=s3_key)
-    text = obj["Body"].read().decode("utf-8").strip()
-    return synthesize_speech_from_text(text, **kwargs)
+# def main():
+#     if len(sys.argv) not in (3, 4):
+#         print("Usage: python -m aws_calls.aws_tts <bucket> <key> [<output.mp3>]")
+#         sys.exit(1)
+#
+#     bucket = sys.argv[1]
+#     key    = sys.argv[2]
+#     out    = sys.argv[3] if len(sys.argv) == 4 else "speech.mp3"
+#
+#     synthesize_speech_from_s3(bucket, key, output=out)
+#
+# if __name__ == "__main__":
+#     main()
