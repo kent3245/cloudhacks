@@ -1,0 +1,1 @@
+Global Content Delivery Networks. It's like having tiny video libraries in every major city. Popular content gets cached locally, so whether you're in New York or New Delhi, your video starts in milliseconds.

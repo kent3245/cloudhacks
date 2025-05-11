@@ -1,0 +1,1 @@
+Adaptive streaming. The video automatically adjusts quality based on your connection. Slow wifi? Lower resolution. Fiber optic? Crystal clear. It's like a video chameleon.

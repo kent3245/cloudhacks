@@ -73,7 +73,9 @@ def text_to_script(text,seconds,person_1,person_2):
     The topic is based on the following text:\n
     {text}\n
     Write a script where {person_1} asks engaging, beginner-friendly questions and {person_2} answers clearly and concisely. Make it sound natural,\n \
-    like a conversation between two people. Keep the tone lively, slightly humorous, and easy to follow. Avoid quoting the source text verbatim—explain\n \
+    like a conversation between two people. 
+    THIS IS SUPER IMPORTANT DO THIS, starts with {person_2} saying hello, then the script should start out with {person_1} asking a question or making a wrong claim about the topic, then {person_2} correcting them.\n
+    Keep the tone lively, slightly humorous, and easy to follow. Avoid quoting the source text verbatim—explain\n \
     things in a way viewers would enjoy on TikTok or Instagram Reels.\n
     Also don't give any stage directions or actions, just the dialogue.\n
     Also do not include (laughs) or (applause) or any other stage directions.\n

@@ -3,7 +3,15 @@
 import os
 import sys
 import boto3
-from config import AWS_REGION, BUCKET_NAME  # BUCKET_NAME only if you want a default
+
+
+# 1) compute project root (one level up from aws_calls/)
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# 2) insert it onto sys.path if not already present
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+
+from config import AWS_REGION, BUCKET_NAME
 
 def synthesize_speech_from_s3(
     bucket_name,

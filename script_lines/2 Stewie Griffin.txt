@@ -1,0 +1,1 @@
+Oh, Jeff, that's so 2010. TikTok doesn't need physical server farms. They're using cloud magic - distributed storage that spreads data across thousands of nodes worldwide.
