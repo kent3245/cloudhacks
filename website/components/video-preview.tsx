@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card"
 import { Loader2, Download, Share2, Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { useState } from "react"
 
 interface VideoPreviewProps {
   generatedVideo: string
@@ -18,6 +19,8 @@ export default function VideoPreview({
   character2,
   backgroundVideo,
 }: VideoPreviewProps) {
+  const [uploadedFile, setUploadedFile] = useState(null)
+
   // Helper function to get character name from ID
   const getCharacterName = (id: string) => {
     const characters: Record<string, string> = {
@@ -41,6 +44,15 @@ export default function VideoPreview({
     }
     return backgrounds[id] || id
   }
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      setUploadedFile(file)
+    }
+  }
+
+  // This will log every time the component renders
 
   return (
     <Card className="p-6 border-0 shadow-lg bg-white dark:bg-slate-900 rounded-xl overflow-hidden h-full">
@@ -72,7 +84,8 @@ export default function VideoPreview({
           <div className="flex-1">
             <div className="aspect-video bg-black rounded-lg overflow-hidden mb-6 shadow-xl">
               <video
-                src={generatedVideo}
+                src="/video/brainrot_final.mp4"
+                // src={generatedVideo}
                 controls
                 className="w-full h-full"
                 poster="/placeholder.svg?height=360&width=640"
